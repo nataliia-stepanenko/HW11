@@ -5,14 +5,10 @@ function getAge(birthday) {
     let now = new Date();
     return ((Date.parse(now) - Date.parse(birthday)) / msInAYear).toFixed(0);
 }
-function getCurrentYear() {
-    let currentDate = new Date();
-    return currentDate.getFullYear();
-}
-function isWeekend(birthday) {
-    return birthday.getDay() === 0 && birthday.getDay() === 6
-} 
 
+function isWeekend(birthday) {
+    return new Date(birthday).getDay() === 0 && new Date(birthday).getDay() === 6
+} 
 
 class Person {
     constructor(firstName, lastName, birthDayDate){
@@ -40,17 +36,14 @@ class Employee extends Person {
         return this.#salary * 12;
     }
     celebrate() {
-        let thisYearBDayInMs = this.birthDayDate.setFullYear(getCurrentYear);
-        let thisYearBDay = new Date(thisYearBDayInMs);
-        if (!isWeekend(thisYearBDay)) {
-            console.log(`Happy Birthday, but I need to work`);
-            return;
-        }
-        console.log(`Happy Birthday, let’s celebrate`);
+        const currentYear = new Date().getFullYear();
+        const thisYearBDay = this.birthDayDate.setFullYear(currentYear);
+
+        if (isWeekend(thisYearBDay)) {
+            super.celebrate();
+        } else {console.log(`Happy Birthday, but I need to work`);}
     }
 }
-
-
 
 
 let person = new Person('Jack', 'Lockwood', '1978-07-12');
